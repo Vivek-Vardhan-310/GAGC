@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Colleges</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>List of Colleges</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>College Name</th>
+                    <th>Location</th>
+                    <th>Cutoff Rank</th>
+                </tr>
+            </thead>
+            <tbody id="collegeTable"></tbody>
+        </table>
+    </div>
+
+    <script>
+        // Get selected exam from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const exam = urlParams.get('exam');
+
+        // Fetch colleges based on exam type
+        fetch('get_colleges.php?exam=' + exam)
+            .then(response => response.json())
+            .then(data => {
+                let table = document.getElementById('collegeTable');
+                data.forEach(college => {
+                    let row = `<tr>
+                        <td>${college.name}</td>
+                        <td>${college.location}</td>
+                        <td>${college.cutoff_rank}</td>
+                    </tr>`;
+                    table.innerHTML += row;
+                });
+            });
+    </script>
+</body>
+</html>
